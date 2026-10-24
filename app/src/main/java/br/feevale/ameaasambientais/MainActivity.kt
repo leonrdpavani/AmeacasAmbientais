@@ -1,47 +1,37 @@
 package br.feevale.ameaasambientais
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import br.feevale.ameaasambientais.ui.theme.AmeaçasAmbientaisTheme
+import android.view.View
+import android.widget.Button
+import android.widget.ListView
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 
-class MainActivity : ComponentActivity() {
+class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            AmeaçasAmbientaisTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+        setContentView(R.layout.activity_main)
+        ajustarBarraNavegacao(findViewById(R.id.raiz))
+
+        findViewById<Button>(R.id.btnNovaAmeaca).setOnClickListener {
+            startActivity(Intent(this, AdicionarActivity::class.java))
+        }
+
+        // Na Parte 1 a lista fica vazia; o clique em um item abrirá a tela de edição
+        findViewById<ListView>(R.id.lvAmeacas).setOnItemClickListener { _, _, _, _ ->
+            startActivity(Intent(this, EditarActivity::class.java))
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AmeaçasAmbientaisTheme {
-        Greeting("Android")
+// Evita que a barra de navegação do sistema cubra os botões no rodapé
+fun ajustarBarraNavegacao(raiz: View) {
+    val paddingInferior = raiz.paddingBottom
+    ViewCompat.setOnApplyWindowInsetsListener(raiz) { v, insets ->
+        val barras = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+        v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, paddingInferior + barras.bottom)
+        insets
     }
 }

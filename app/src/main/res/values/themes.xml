@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.AmeaçasAmbientais" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.AmeacasAmbientais" parent="android:Theme.Material.Light.DarkActionBar">
+        <item name="android:colorPrimary">@color/verde_primario</item>
+        <item name="android:colorPrimaryDark">@color/verde_escuro</item>
+        <item name="android:colorAccent">@color/verde_destaque</item>
+        <item name="android:windowBackground">@color/fundo</item>
+        <item name="android:statusBarColor">@color/verde_escuro</item>
+    </style>
 </resources>

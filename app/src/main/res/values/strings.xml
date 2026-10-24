@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">AmeaçasAmbientais</string>
+    <string name="app_name">Ameaças Ambientais</string>
+    <string name="ameacas_cadastradas">Ameaças Cadastradas</string>
+    <string name="nova_ameaca">Nova Ameaça</string>
+    <string name="endereco">Endereço</string>
+    <string name="data">Data</string>
+    <string name="descricao">Descrição</string>
+    <string name="adicionar">Adicionar</string>
+    <string name="atualizar">Atualizar</string>
+    <string name="hint_endereco">Ex.: Rua Professor Otaviano Barata, 291</string>
+    <string name="hint_data">dd/mm/aaaa</string>
+    <string name="hint_descricao">Descreva a ameaça ambiental</string>
 </resources>
