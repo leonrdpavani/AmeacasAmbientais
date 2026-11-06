@@ -5,13 +5,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-data class Ameaca(
-    val id: Long = 0,
-    val endereco: String,
-    val data: String,
-    val descricao: String
-)
-
+// Cria o banco SQLite e faz as operações na tabela de ameaças
 class BancoDados(context: Context) : SQLiteOpenHelper(context, "ameacas.db", null, 1) {
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -39,6 +33,8 @@ class BancoDados(context: Context) : SQLiteOpenHelper(context, "ameacas.db", nul
 
     fun atualizar(ameaca: Ameaca): Int =
         writableDatabase.update("ameacas", valores(ameaca), "id = ?", arrayOf(ameaca.id.toString()))
+
+    fun excluir(id: Long): Int = writableDatabase.delete("ameacas", "id = ?", arrayOf(id.toString()))
 
     fun listar(): List<Ameaca> {
         val lista = mutableListOf<Ameaca>()

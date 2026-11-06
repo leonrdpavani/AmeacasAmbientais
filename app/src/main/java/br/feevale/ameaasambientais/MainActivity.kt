@@ -6,14 +6,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ListView
-import android.widget.SimpleAdapter
+import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : Activity() {
     private lateinit var banco: BancoDados
     private lateinit var lvAmeacas: ListView
-    private var ameacas: List<Ameaca> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,22 +26,30 @@ class MainActivity : Activity() {
             startActivity(Intent(this, AdicionarActivity::class.java))
         }
 
-        lvAmeacas.setOnItemClickListener { _, _, posicao, _ ->
+        // Clique curto: abre a ameaça selecionada para edição
+        lvAmeacas.setOnItemClickListener { _, _, _, id ->
             val intent = Intent(this, EditarActivity::class.java)
-            intent.putExtra("id", ameacas[posicao].id)
+            intent.putExtra("id", id)
             startActivity(intent)
+        }
+
+        // Clique longo: exclui a ameaça selecionada e continua na tela inicial
+        lvAmeacas.setOnItemLongClickListener { _, _, _, id ->
+            banco.excluir(id)
+            Toast.makeText(this, "Ameaça excluída", Toast.LENGTH_SHORT).show()
+            carregarLista()
+            true
         }
     }
 
     // Recarrega a lista sempre que a tela volta a aparecer (após adicionar ou editar)
     override fun onResume() {
         super.onResume()
-        ameacas = banco.listar()
-        val dados = ameacas.map { mapOf("descricao" to it.descricao, "data" to it.data) }
-        lvAmeacas.adapter = SimpleAdapter(
-            this, dados, R.layout.item_ameaca,
-            arrayOf("descricao", "data"), intArrayOf(R.id.txtDescricao, R.id.txtData)
-        )
+        carregarLista()
+    }
+
+    private fun carregarLista() {
+        lvAmeacas.adapter = AmeacaAdapter(this, banco.listar())
     }
 }
 

@@ -7,10 +7,17 @@ import android.widget.EditText
 import android.widget.Toast
 
 class EditarActivity : Activity() {
+    // Seta de voltar da barra do topo: volta para a tela inicial sem salvar
+    override fun onNavigateUp(): Boolean {
+        finish()
+        return true
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editar)
         ajustarBarraNavegacao(findViewById(R.id.raiz))
+        actionBar?.setDisplayHomeAsUpEnabled(true)
 
         val banco = BancoDados(this)
         val ameaca = banco.buscar(intent.getLongExtra("id", -1))
